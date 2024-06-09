@@ -1,0 +1,62 @@
+body,
+h1,
+h2,
+p,
+ul,
+ol,
+li,
+figure,
+table,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    margin: 0;
+    height: 100ch;
+}
+
+header,
+footer {
+    text-align: center;
+    background-color: #4682b4;
+    color: white;
+    padding: 20px;
+}
+
+main {
+    background-color: #f0f0f0;
+}
+
+#buscarNoticia {
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    background: none;
+    cursor: pointer;
+    border: none;
+}
+
+dialog {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    width: 300px;
+}
