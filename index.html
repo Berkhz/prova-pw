@@ -8,45 +8,49 @@
 </head>
 <body>
     <header>
-        <h1>Portal de notícias do IBGE</h1>
-
-        <form id="buscarNoticia" action="">
-            <input 
-            type="text" 
-            name="buscarNoticia" 
-            id="buscarNoticia"
-            required
-            placeholder="Buscar noticia por termo"
-            >
-            <button type="submit">🔍</button>
-        </form>
-
-        <button id="botaoFiltro" onclick="abrirFiltro()">
-            <svg
-            width="20"
-            height="20"
-            fill="#f0f0f0"
-            viewBox="0 0 80 90"
-            focusable="false"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="m 0,0 30,45 0,30 10,15 0,-45 30,-45 Z"></path>
-        </svg>
-        </button> 
+        <h1>Portal de Notícias do IBGE</h1>
+        <div class="search-filters-wrapper">
+            <form id="buscarNoticia">
+                <div class="search-wrapper">
+                    <input 
+                        type="text" 
+                        name="buscar" 
+                        id="buscarNoticiaInput" 
+                        placeholder="Buscar notícia por termo">
+                    <button type="submit">🔍</button>
+                </div>
+            </form>
+            <button id="botaoFiltro">
+                <svg
+                    width="20"
+                    height="20"
+                    fill="#f0f0f0"
+                    viewBox="0 0 80 90"
+                    focusable="false"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,0 L30,45 L30,75 L40,90 L40,45 L70,0 Z"></path>
+                </svg>
+                <span id="filtrosAtivos"></span>
+            </button> 
+        </div>
     </header>
-
     <dialog id="modalFiltro">
-        <form id="formFiltro" method="get" action="/sua-rota-aqui">
+        <form id="formFiltro">
             <div class="form-group">
                 <label for="tipoId">Tipo:</label>
                 <select name="tipo" id="tipoId">
-                    <option value="noticias">Notícias</option>
-                    <option value="release">Release</option>
+                    <!-- Tipos dinâmicos serão adicionados aqui -->
                 </select>
             </div>
             <div class="form-group">
                 <label for="quantidadeId">Quantidade:</label>
                 <select name="quantidade" id="quantidadeId">
-                    <option value="10">10</option>
+                    <option value="10" selected>10</option>
+                    <option value="5">5</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
                 </select>
             </div>
             <div class="form-group">
@@ -57,18 +61,15 @@
                 <label for="dataAte">Até:</label>
                 <input type="date" id="dataAte" name="dataAte">
             </div>
-            <button type="submit" id="aplicarFiltro">Aplicar</button>
-            <button type="button" id="fecharDialog">X</button>
+            <button type="submit">Aplicar</button>
         </form>
+        <button id="fecharModal" onclick="document.getElementById('modalFiltro').close();">X</button>
     </dialog>
-
     <main>
         <ul id="listaNoticias"></ul>
+        <ul id="paginacao"></ul>
     </main>
-
-    <footer>
-        <p>&copy Prova do segundo bimestre - Programação WEB</p>
-    </footer>
+    <footer></footer>
     <script src="script.js"></script>
 </body>
 </html>
