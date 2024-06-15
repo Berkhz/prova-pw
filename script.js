@@ -24,101 +24,90 @@ document.addEventListener("DOMContentLoaded", function() {
 
     async function obterValoresTipo() {
         try {
-            const response = await fetch(API_URL + "/tipos")
-            if (!response.ok) throw new Error(`Erro HTTP! Status: ${response.status}`)
-            const data = await response.json()
-            const tipoInput = document.getElementById("tipoId")
-            data.forEach(tipo => {
-                const option = document.createElement("option")
-                option.value = tipo.id
-                option.textContent = tipo.nome
-                tipoInput.appendChild(option)
-            })
+            const response = await fetch("https://servicodados.ibge.gov.br/api/v3/noticias/tipos")
+            if (!response.ok) {
+                throw new Error(`Erro HTTP! Status: ${response.status}`)
+            }
+            const tipos = await response.json()
+            popularTiposFiltro(tipos)
         } catch (error) {
             console.error("Erro ao buscar tipos:", error)
         }
     }
 
     async function obterDadosAPI(page = 1) {
-        const params = new URLSearchParams(window.location.search)
-        params.set("page", page)
-        const buscarNoticiaInput = document.getElementById("buscarNoticiaInput").value
-        if (buscarNoticiaInput) params.set("buscar", buscarNoticiaInput)
-
-        const quantidade = params.get("quantidade") || 10
-        params.set("quantidade", quantidade)
-        const url = `${API_URL}?${params.toString()}`
-        console.log(url)
+        const queryParams = new URLSearchParams(window.location.search)
+        queryParams.set("page", page)
+        queryParams.set("qtd", document.getElementById("quantidadeId").value || 10)
+        const busca = document.getElementById("buscarNoticiaInput").value
+        if (busca) {
+            queryParams.set("busca", busca)
+        }
 
         try {
-            const response = await fetch(url)
-            if (!response.ok) throw new Error(`Erro HTTP! Status: ${response.status}`)
-            const data = await response.json()
-            listarNoticias(data.items)
-            criarPaginacao(Math.ceil(data.totalResults / quantidade), page)
+            const response = await fetch(`https://servicodados.ibge.gov.br/api/v3/noticias?${queryParams.toString()}`)
+            if (!response.ok) {
+                throw new Error(`Erro HTTP! Status: ${response.status}`)
+            }
+            const noticias = await response.json()
+            listarNoticias(noticias.items)
+            criarPaginacao(noticias.totalPages, noticias.page)
         } catch (error) {
             console.error("Erro ao buscar dados:", error)
+            listaNoticias.innerHTML = "<li>Erro ao carregar as notícias. Por favor, tente novamente mais tarde.</li>"
         }
     }
 
     function aplicarFiltros() {
         const queryParams = new URLSearchParams()
-        queryParams.set("page", "1")
-
         const tipo = document.getElementById("tipoId").value
-        if (tipo) queryParams.set("tipo", tipo)
-
-        const quantidade = document.getElementById("quantidadeId").value
-        if (quantidade) queryParams.set("quantidade", quantidade)
-
+        if (tipo) {
+            queryParams.set("tipo", tipo)
+        }
         const dataDe = document.getElementById("dataDe").value
-        if (dataDe) queryParams.set("dataDe", dataDe)
-
+        if (dataDe) {
+            queryParams.set("dataInicio", dataDe)
+        }
         const dataAte = document.getElementById("dataAte").value
-        if (dataAte) queryParams.set("dataAte", dataAte)
+        if (dataAte) {
+            queryParams.set("dataFim", dataAte)
+        }
+        window.location.search = queryParams.toString()
+    }
 
-        history.replaceState(null, "", `?${queryParams.toString()}`)
-        obterDadosAPI()
+    function popularTiposFiltro(tipos) {
+        const tipoSelect = document.getElementById("tipoId")
+        tipos.forEach(tipo => {
+            const option = document.createElement("option")
+            option.value = tipo.id
+            option.text = tipo.nome
+            tipoSelect.appendChild(option)
+        })
     }
 
     function listarNoticias(noticias) {
         listaNoticias.innerHTML = ""
         noticias.forEach(noticia => {
-            const item = document.createElement("li")
-            item.innerHTML = `
-                <img src="${noticia.imagemUrl}" alt="${noticia.titulo}" />
-                <div>
-                    <h2>${noticia.titulo}</h2>
-                    <p>${noticia.introducao}</p>
-                    <a href="${noticia.link}" target="_blank">Leia mais</a>
-                </div>
+            const li = document.createElement("li")
+            li.innerHTML = `
+                <h3>${noticia.titulo}</h3>
+                <p>${noticia.introducao}</p>
+                <a href="${noticia.link}" target="_blank">Leia mais</a>
             `
-            listaNoticias.appendChild(item)
+            listaNoticias.appendChild(li)
         })
     }
 
     function criarPaginacao(totalPages, currentPage) {
         paginacao.innerHTML = ""
         for (let i = 1; i <= totalPages; i++) {
-            const item = document.createElement("li")
-            const button = document.createElement("button")
-            button.textContent = i
-            if (i === currentPage) button.classList.add("active")
-            button.addEventListener("click", () => obterDadosAPI(i))
-            item.appendChild(button)
-            paginacao.appendChild(item)
-        }
-    }
-
-    function exibirFiltrosAtivos() {
-        const params = new URLSearchParams(window.location.search)
-        const filtrosAtivos = Array.from(params.keys()).filter(key => key !== "page").length
-        const filtrosSpan = document.getElementById("filtrosAtivos")
-        if (filtrosAtivos) {
-            filtrosSpan.style.display = "block"
-            filtrosSpan.textContent = filtrosAtivos
-        } else {
-            filtrosSpan.style.display = "none"
+            const link = document.createElement("a")
+            link.href = `?page=${i}`
+            link.textContent = i
+            if (i === currentPage) {
+                link.classList.add("active")
+            }
+            paginacao.appendChild(link)
         }
     }
 

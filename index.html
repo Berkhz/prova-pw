@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Portal de Notícias do IBGE</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
@@ -12,34 +12,36 @@
         <div class="search-filters-wrapper">
             <form id="buscarNoticia">
                 <div class="search-wrapper">
-                    <input 
-                        type="text" 
-                        name="buscar" 
-                        id="buscarNoticiaInput" 
-                        placeholder="Buscar notícia por termo">
+                    <input type="text" name="buscar" id="buscarNoticiaInput" placeholder="Buscar notícia por termo">
                     <button type="submit">🔍</button>
                 </div>
             </form>
             <button id="botaoFiltro">
-                <svg
-                    width="20"
-                    height="20"
-                    fill="#f0f0f0"
-                    viewBox="0 0 80 90"
-                    focusable="false"
-                    xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" fill="#f0f0f0" viewBox="0 0 80 90" focusable="false" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0,0 L30,45 L30,75 L40,90 L40,45 L70,0 Z"></path>
                 </svg>
                 <span id="filtrosAtivos"></span>
-            </button> 
+            </button>
         </div>
     </header>
+    
+    <main>
+        <ul id="listaNoticias"></ul>
+        <div id="paginacao"></div>
+    </main>
+
+    <footer>
+        <p>Portal de Notícias do IBGE &copy; 2024</p>
+    </footer>
+
     <dialog id="modalFiltro">
         <form id="formFiltro">
             <div class="form-group">
                 <label for="tipoId">Tipo:</label>
                 <select name="tipo" id="tipoId">
-                    <!-- Tipos dinâmicos serão adicionados aqui -->
+                    <option value="">Selecione</option>
+                    <option value="noticias">Notícias</option>
+                    <option value="releases">Releases</option>
                 </select>
             </div>
             <div class="form-group">
@@ -49,8 +51,6 @@
                     <option value="5">5</option>
                     <option value="15">15</option>
                     <option value="20">20</option>
-                    <option value="25">25</option>
-                    <option value="30">30</option>
                 </select>
             </div>
             <div class="form-group">
@@ -64,12 +64,7 @@
             <button type="submit">Aplicar</button>
         </form>
         <button id="fecharModal" onclick="document.getElementById('modalFiltro').close();">X</button>
-    </dialog>
-    <main>
-        <ul id="listaNoticias"></ul>
-        <ul id="paginacao"></ul>
-    </main>
-    <footer></footer>
+    </dialog>    
     <script src="script.js"></script>
 </body>
 </html>
