@@ -83,13 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
             return `
                 <li>
                     <img src="${imagemSrc}" alt="${imagemAlt}">
-                    <div>
+                    <div class="div-noticias">
                         <h2>${titulo}</h2>
                         <p>${introducao}</p>
                         <p>${editorias}</p>
                         <p>${dataPublicacao}</p>
                         <a href="${url}" target="_blank" rel="noopener noreferrer">
-                        <button>Leia mais</button>
+                        <button class="leia-mais">Leia mais</button>
                         </a>
                     </div>
                 </li>
@@ -138,15 +138,18 @@ document.addEventListener("DOMContentLoaded", function() {
     function contarFiltrosAtivos() {
         const queryParams = new URLSearchParams(window.location.search);
         let count = 0;
+    
         for (let [key, value] of queryParams.entries()) {
-            if (key !== 'page' && key !== 'busca' && value) {
+            if (key !== 'page' && key !== 'busca' && value !== '') {
                 count++;
             }
         }
+    
         const filtrosAtivos = document.getElementById('filtrosAtivos');
         filtrosAtivos.textContent = count;
         filtrosAtivos.style.display = count > 0 ? 'inline' : 'none';
     }
+    
 
     function aplicarFiltrosNosInputs() {
         const queryParams = new URLSearchParams(window.location.search);

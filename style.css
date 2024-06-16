@@ -34,23 +34,28 @@ header h1 {
 .search-wrapper {
     position: relative;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .search-wrapper input {
-    padding-right: 30px;
-    width: 80%;
+    padding: 10px;
+    width: 100%;
     max-width: 400px;
+    border-radius: 5px;
+    border: none;
 }
 
 .search-wrapper button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    border: none;
-    background: none;
     cursor: pointer;
+    height: 35px;
+    width: 35px;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 #botaoFiltro {
@@ -62,6 +67,11 @@ header h1 {
     position: relative;
 }
 
+#botaoFiltro 
+.filtro-button {
+    margin-left: 10px;
+}
+
 #filtrosAtivos {
     position: absolute;
     top: -5px;
@@ -71,6 +81,15 @@ header h1 {
     border-radius: 50%;
     padding: 5px;
     display: none;
+}
+
+.leia-mais {
+    background: #cfcfcf;
+    width: 100%;
+    cursor: pointer;
+    padding: 8px 0;
+    border-radius: 10px;
+    border: none;
 }
 
 ul {
@@ -116,11 +135,17 @@ ul#listaNoticias li img {
 }
 
 #modalFiltro {
-    max-width: 300px;
-    margin: 1rem auto;
+    max-width: 400px; 
+    margin: 1rem auto; 
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.form-group {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    margin: 0;
 }
 
 #modalFiltro .form-group {
@@ -132,12 +157,6 @@ ul#listaNoticias li img {
     grid-template-columns: 1fr;
 }
 
-@media (min-width: 760px) {
-    #modalFiltro form {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
 #fecharModal {
     position: absolute;
     top: 10px;
@@ -146,4 +165,33 @@ ul#listaNoticias li img {
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+}
+
+.div-noticias p {
+    margin-bottom: 5px; 
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 0.5rem;
+    }
+
+    .search-wrapper input {
+        width: calc(100% - 45px);
+        max-width: none;
+    }
+
+    .search-wrapper button {
+        right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 0.5rem;
+    }
+
+    #modalFiltro {
+        max-width: 100%;
+    }
 }
