@@ -1,10 +1,10 @@
 body {
     display: grid;
     grid-template-rows: auto 1fr auto;
-    grid-template-columns: 1fr;
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
 }
 
 header, footer {
@@ -15,7 +15,6 @@ header, footer {
 }
 
 main {
-    background-color: #f0f0f0;
     max-width: 100ch;
     margin: auto;
     padding: 1rem;
@@ -97,6 +96,7 @@ ul#listaNoticias li img {
     display: flex;
     justify-content: center;
     margin-top: 1rem;
+    list-style-type: none;
 }
 
 #paginacao li {
