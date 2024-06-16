@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
             listaNoticias.innerHTML = "<li>Erro ao carregar as notícias. Por favor, tente novamente mais tarde.</li>";
         }
     }
-    
 
     function aplicarFiltros() {
         const queryParams = new URLSearchParams()
@@ -72,30 +71,33 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function listarNoticias(noticias) {
         const listaHtml = noticias.map(noticia => {
-            const imagemSrc = noticia.imagens && noticia.imagens.length > 0 ? noticia.imagens[0].url : '';
-            const imagemAlt = noticia.imagens && noticia.imagens.length > 0 ? noticia.imagens[0].legenda : '';
+            const imagemSrc = 'https://agenciadenoticias.ibge.gov.br/' 
+                            + (noticia.imagens ? JSON.parse(noticia.imagens).image_intro : '');
+            const imagemAlt = 'Imagem da notícia';
             const titulo = noticia.titulo || 'Título não disponível';
             const introducao = noticia.introducao || 'Introdução não disponível';
-            const url = noticia.url || '#';
+            const url = noticia.link || '#';
             const editorias = noticia.editorias ? noticia.editorias.split(',').map(editoria => `#${editoria.trim()}`).join(' ') : '';
             const dataPublicacao = calcularTempoPublicacao(noticia.data_publicacao);
     
             return `
                 <li>
-                    <img src="https://agenciadenoticias.ibge.gov.br${imagemSrc}" alt="${imagemAlt}">
+                    <img src="${imagemSrc}" alt="${imagemAlt}">
                     <div>
                         <h2>${titulo}</h2>
                         <p>${introducao}</p>
                         <p>${editorias}</p>
                         <p>${dataPublicacao}</p>
-                        <a href="${url}" target="_blank" rel="noopener noreferrer">Leia Mais</a>
+                        <a href="${url}" target="_blank" rel="noopener noreferrer">
+                        <button>Leia mais</button>
+                        </a>
                     </div>
                 </li>
             `;
         }).join("");
     
         listaNoticias.innerHTML = `<ul>${listaHtml}</ul>`;
-    }
+    }    
     
     function calcularTempoPublicacao(dataPublicacao) {
         const dataAtual = new Date();
@@ -132,6 +134,30 @@ document.addEventListener("DOMContentLoaded", function() {
             paginacao.appendChild(pageItem);
         }
     }
+
+    function contarFiltrosAtivos() {
+        const queryParams = new URLSearchParams(window.location.search);
+        let count = 0;
+        for (let [key, value] of queryParams.entries()) {
+            if (key !== 'page' && key !== 'busca' && value) {
+                count++;
+            }
+        }
+        const filtrosAtivos = document.getElementById('filtrosAtivos');
+        filtrosAtivos.textContent = count;
+        filtrosAtivos.style.display = count > 0 ? 'inline' : 'none';
+    }
+
+    function aplicarFiltrosNosInputs() {
+        const queryParams = new URLSearchParams(window.location.search);
+        document.getElementById('tipoId').value = queryParams.get('tipo') || '';
+        document.getElementById('quantidadeId').value = queryParams.get('qtd') || '10';
+        document.getElementById('dataDe').value = queryParams.get('dataInicio') || '';
+        document.getElementById('dataAte').value = queryParams.get('dataFim') || '';
+        document.getElementById('buscarNoticiaInput').value = queryParams.get('busca') || '';
+    }    
     
     obterDadosAPI()
+    contarFiltrosAtivos();
+    aplicarFiltrosNosInputs();
 })

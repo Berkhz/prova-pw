@@ -28,7 +28,6 @@ header h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1000px;
     margin: auto;
 }
 
@@ -87,7 +86,7 @@ ul#listaNoticias li {
 }
 
 ul#listaNoticias li img {
-    width: 100px;
+    width: 30%;
     height: auto;
     object-fit: cover;
 }
