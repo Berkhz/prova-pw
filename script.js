@@ -52,22 +52,23 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function aplicarFiltros() {
-        const queryParams = new URLSearchParams()
-        const tipo = document.getElementById("tipoId").value
+        const queryParams = new URLSearchParams();
+        const tipo = document.getElementById("tipoId").value;
         if (tipo) {
-            queryParams.set("tipo", tipo)
+            queryParams.set("tipo", tipo);
         }
-        const dataDe = document.getElementById("dataDe").value
+        const dataDe = document.getElementById("dataDe").value;
         if (dataDe) {
-            queryParams.set("dataInicio", dataDe)
+            queryParams.set("dataInicio", dataDe);
         }
-        const dataAte = document.getElementById("dataAte").value
+        const dataAte = document.getElementById("dataAte").value;
         if (dataAte) {
-            queryParams.set("dataFim", dataAte)
+            queryParams.set("dataFim", dataAte);
         }
-        window.history.pushState({}, "", `?${queryParams.toString()}`)
-        obterDadosAPI()
-    }
+        window.history.pushState({}, "", `?${queryParams.toString()}`);
+        contarFiltrosAtivos();
+        obterDadosAPI();
+    }    
 
     function listarNoticias(noticias) {
         const listaHtml = noticias.map(noticia => {
@@ -146,10 +147,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     
         const filtrosAtivos = document.getElementById('filtrosAtivos');
-        filtrosAtivos.textContent = count;
-        filtrosAtivos.style.display = count > 0 ? 'inline' : 'none';
+        filtrosAtivos.textContent = count + 1; // Inicia com 1 por padrão
+        filtrosAtivos.style.display = 'inline';
     }
-    
 
     function aplicarFiltrosNosInputs() {
         const queryParams = new URLSearchParams(window.location.search);
