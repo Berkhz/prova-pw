@@ -24,9 +24,14 @@ header h1 {
     margin: 0;
 }
 
+#buscarNoticiaInput {
+    width: 30ch;
+    align-items: center;
+}
+
 .search-filters-wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin: auto;
 }
@@ -63,8 +68,8 @@ header h1 {
     border: none;
     cursor: pointer;
     display: flex;
-    align-items: center;
     position: relative;
+    left: 100ch;
 }
 
 #botaoFiltro 
